@@ -4,10 +4,8 @@ services:
   db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: your_username
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_dbname
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -15,9 +13,9 @@ services:
 
   web:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
-    environment:
-      DATABASE_URL: postgresql://your_username:your_password@db/your_dbname
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - .env
     volumes:
       - .:/code
     ports:
