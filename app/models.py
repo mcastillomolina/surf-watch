@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -9,6 +9,7 @@ class User(Base):
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     phone_number = Column(String, unique=True, index=True)
+    notifications_enabled = Column(Boolean, default=True)
 
     surf_spots = relationship("UserSurfSpot", back_populates="user")
 
@@ -16,8 +17,17 @@ class SurfSpot(Base):
     __tablename__ = "surf_spots"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    location = Column(String, index=True)
+    name = Column(String, index=True, nullable=False)
+    location = Column(String, index=True)  #can be city/region name
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    country = Column(String, nullable=True)
+    continent = Column(String, nullable=True)
+
+    # Future fields (commented out for now):
+    # region = Column(String, nullable=True)
+    # spot_type = Column(String, nullable=True)  # beach, reef, point_break
+    # bottom_type = Column(String, nullable=True)  # sand, reef, rock
 
     reports = relationship("SurfReport", back_populates="surf_spot")
     users = relationship("UserSurfSpot", back_populates="surf_spot")
