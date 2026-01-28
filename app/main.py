@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from . import schemas, crud
-from .database import init_db, get_db
+from .database import get_db
 from typing import List
 from api.routes import get_router
 
@@ -10,8 +10,6 @@ app = FastAPI(
     description='Super awesome project for surfers',
     version='1.0.1'
 )
-
-init_db()
 
 router = get_router()
 app.include_router(router)

@@ -53,8 +53,10 @@ The API will be available at `http://localhost:8000`. FastAPI automatically gene
 
 ### Database Migrations
 
-The project uses Alembic for database migrations. Current migration state:
-- Initial migration `895a520ca3b5` adds coordinates (latitude/longitude) and location details (country/continent) to SurfSpot model
+The project uses Alembic for database migrations. The application does NOT auto-create tables - migrations must be run manually or via Docker (which runs them automatically on startup).
+
+Current migration state:
+- Initial migration `895a520ca3b5` creates all tables and adds coordinates (latitude/longitude) and location details (country/continent) to SurfSpot model
 
 ```bash
 # Create a new migration
@@ -65,7 +67,15 @@ poetry run alembic upgrade head
 
 # Rollback migration
 poetry run alembic downgrade -1
+
+# Check current migration status
+poetry run alembic current
+
+# View migration history
+poetry run alembic history
 ```
+
+**Important**: When using Docker Compose, migrations run automatically on startup. For local development without Docker, you must run `alembic upgrade head` before starting the application.
 
 Environment variable required:
 - `DATABASE_URL`: PostgreSQL connection string (format: `postgresql://username:password@host/dbname`)
