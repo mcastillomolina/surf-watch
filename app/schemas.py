@@ -19,7 +19,23 @@ class User(UserBase):
 
 class SurfSpotBase(BaseModel):
     name: str
-    location: str
+    location: Optional[str] = None
+    latitude: float
+    longitude: float
+    country: Optional[str] = None
+    continent: Optional[str] = None
+
+    @classmethod
+    def validate_latitude(cls, v):
+        if v < -90 or v > 90:
+            raise ValueError('Latitude must be between -90 and 90')
+        return v
+
+    @classmethod
+    def validate_longitude(cls, v):
+        if v < -180 or v > 180:
+            raise ValueError('Longitude must be between -180 and 180')
+        return v
 
 class SurfSpotCreate(SurfSpotBase):
     pass

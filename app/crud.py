@@ -17,7 +17,14 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 # SurfSpot operations
 def create_surf_spot(db: Session, surf_spot: schemas.SurfSpotCreate):
-    db_surf_spot = models.SurfSpot(name=surf_spot.name, location=surf_spot.location)
+    db_surf_spot = models.SurfSpot(
+        name=surf_spot.name,
+        location=surf_spot.location,
+        latitude=surf_spot.latitude,
+        longitude=surf_spot.longitude,
+        country=surf_spot.country,
+        continent=surf_spot.continent
+    )
     db.add(db_surf_spot)
     db.commit()
     db.refresh(db_surf_spot)
